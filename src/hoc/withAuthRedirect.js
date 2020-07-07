@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-//import Preloader from "../components/common/Preloader/Preloader";
+import Preloader from "../components/common/Preloader/Preloader";
 
 /* let mapStateToPropsForRedirect = (state) => ({
     isAuth: state.auth.isAuth
@@ -21,7 +21,7 @@ export const withAuthRedirect = (Component) => {
     return ConnectedAuthRedirectComponent; */
     export const withSuspense = (Component) => {
 
-        return (props) =>(<Suspense>
+        return (props) =>(<Suspense fallback={<Preloader/>}>
          <Component {...props}/>
          </Suspense> )
                 
