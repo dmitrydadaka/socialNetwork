@@ -4,9 +4,9 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 window.props = []
 const Profile = (props) => {
-    window.props.push(props)
+   // window.props.push(props)
 
-    console.log("profile");
+   // console.log("profile");
     return (
         <div>
             <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus} />

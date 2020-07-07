@@ -51,7 +51,8 @@ class App extends Component {
                 <HeaderContainer />
                 <NavBarContainer />
                 <div className={"app-wrapper-content"}>
-
+                {/* <Route exact path='/'
+                               render={() => <Redirect to={"/profile"}/>}/> */}
 
                     <Suspense fallback={<Preloader/>}>
                         <Route path={"/profile/:userId?"} render={() => <ProfileContainer />} />

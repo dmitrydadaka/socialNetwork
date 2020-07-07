@@ -5,6 +5,8 @@ import DialogItem from "../../Dialogs/DialogItem/DialogItem";
 import Message from "../../Dialogs/Message/Message";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import Profile from "../Profile";
+import userPhoto from "../../../assets/images/user.png";
+
 
 const ProfileInfo = ({profile, status, updateStatus }) => {
     if (!profile) {
@@ -33,7 +35,7 @@ const ProfileInfo = ({profile, status, updateStatus }) => {
         <div>
             <div><img src={"https://klike.net/uploads/posts/2019-01/1547365376_1.jpg"}/></div>
             <div className={s.descriptionBlock}>
-                <img src={profile.photos.large}/>
+                <img src={profile.photos.large || userPhoto} className={s.userPhoto}/>
                 <div> <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/> </div>
                 {/*<textarea value={aboutMe} cols="30" rows="10"/>*/}
                 <div> {profile.aboutMe} </div>
