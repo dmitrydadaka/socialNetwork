@@ -4,6 +4,7 @@ const updateNewPostText = "updateNewPostText";
 const onButtonClickEvent = "onButtonClickEvent";
 const setUserProfile = "setUserProfile";
 const setStatus = "setStatus";
+const setPhoto= "setPhoto"
 const deletePost = "deletePost";
 let startState = {
     posts: [
@@ -52,6 +53,8 @@ const profileReducer = (state = startState, action) => {
             return { ...state, status: action.status };
         case deletePost:
             return { ...state, posts: state.posts.filter(p => p.id != action.postId) }
+        case setPhoto:
+            return { ...state.profile, photos: action.photos };
 
     }
 };
@@ -61,6 +64,8 @@ export const onButtonClickEventActionCreator = (newPostText) => ({ type: onButto
 export const updateNewPostTextActionCreator = (text) => ({ type: updateNewPostText, newPost: text });
 export const setUserProfileAC = (profile) => ({ type: setUserProfile, profile });
 export const setStatusAC = (status) => ({ type: setStatus, status });
+export const savePhotoSuccess = (photos) => ({ type: setPhoto, photos });
+
 
 
 export const getUserProfile = (userId) => async (dispatch) => {
@@ -86,6 +91,14 @@ export const updateStatus = (status) => async (dispatch) => {
     let response = await profileAPI.updateStatus(status)
 
     if (response.data.resultCode === 0) { dispatch(setStatusAC(status)) }
+
+
+};
+export const savePhoto = (file) => async (dispatch) => {
+
+    let response = await profileAPI.savePhoto(file)
+
+    if (response.data.resultCode === 0) { dispatch(savePhotoSuccess(response.data.data.photos)) }
 
 
 };

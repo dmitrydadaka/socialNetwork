@@ -8,7 +8,7 @@ import Profile from "../Profile";
 import userPhoto from "../../../assets/images/user.png";
 
 
-const ProfileInfo = ({profile, status, updateStatus }) => {
+const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto }) => {
     if (!profile) {
         return <Preloader/>
     }
@@ -29,6 +29,13 @@ const ProfileInfo = ({profile, status, updateStatus }) => {
     //  let index;
     //  for (index=0; index<Contacts.length, ++index;){ (Contacts[index])};
     //  let state=props.profile.contacts;
+    const onMainPhotoSelected=(e)=>{
+        if (e. target. files.length){
+            savePhoto(e. target. files[0])
+
+        }
+
+    }
 
 
     return (
@@ -36,6 +43,7 @@ const ProfileInfo = ({profile, status, updateStatus }) => {
             <div><img src={"https://klike.net/uploads/posts/2019-01/1547365376_1.jpg"}/></div>
             <div className={s.descriptionBlock}>
                 <img src={profile.photos.large || userPhoto} className={s.userPhoto}/>
+                {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
                 <div> <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/> </div>
                 {/*<textarea value={aboutMe} cols="30" rows="10"/>*/}
                 <div> {profile.aboutMe} </div>
