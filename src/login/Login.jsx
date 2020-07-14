@@ -8,7 +8,7 @@ import {Redirect} from "react-router-dom";
 import style from "../components/common/formControls/FormControls.module.css";
 
 
-const LoginForm = ({handleSubmit, error,  props}) => {
+const LoginForm = ({handleSubmit, error}) => {
     return (
         <form onSubmit={handleSubmit}>
             {createField(Input, [required], "email", "email")}

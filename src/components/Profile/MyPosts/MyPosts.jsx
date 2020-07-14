@@ -43,11 +43,13 @@ const MyPosts=React.memo(props=>  {
 
     }  */
 
-    
+    /* 
         console.log("render");
-        console.log(props);
+        console.log(props); */
 
-        let postsElements = [...props.posts].reverse().map(p => <Post message={p.message} key={p.id} likescount={p.likescount} />);
+        let postsElements = [...props.posts]
+        .reverse()
+        .map(p => <Post  message={p.message} key={p.id} likescount={p.likescount} />);
         let addNewPostText = (value, dispatch) => {
             props.onButtonClick(value.newPostText);
             dispatch(reset('MyPostsForm'))
