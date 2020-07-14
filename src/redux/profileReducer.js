@@ -109,9 +109,21 @@ export const saveProfile = (profile) => async (dispatch, getState) => {
     const response = await profileAPI.saveProfile(profile)
     
     if (response.data.resultCode === 0) { dispatch(getUserProfile(userId)) }
-    else {
-        dispatch(stopSubmit("editProfile", {_error : response.data.messages[0]} ))
-        return Promise.reject(response.data.messages[0])}
+    else { /* let wrongNetwork = response.data.messages[0]
+        .slice(
+          response.data.messages[0].indexOf(">") + 1,
+          response.data.messages[0].indexOf(")")
+        )
+        .toLocaleLowerCase(); */        //popisyvaet-vyvodit soobshchenie pod nygnym inputom
+        let key = response.data.messages[0].match(/Contacts->(\w+)/)[1].toLowerCase();
+
+      dispatch(
+        stopSubmit("editProfile", {
+          contacts: { [key]: response.data.messages[0] }
+        })
+      );
+      return Promise.reject(response.data.messages[0]);
+    }
 
 
 };
