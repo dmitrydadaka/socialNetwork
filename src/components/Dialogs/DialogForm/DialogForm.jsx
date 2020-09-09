@@ -1,12 +1,7 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
-import {
-    onButtonClickEventMessageActionCreator,
-    updateNewPostTextMessageActionCreator
-} from "../../../redux/dialogsReducer";
-import {compose} from "redux";
-import {connect} from "react-redux";
-import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+
+
 import { Textarea } from "../../common/formControls/formControls";
 import { required, maxLengthCreator } from "../../../validators/validators";
 

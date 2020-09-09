@@ -5,9 +5,28 @@ import {Follow, getUsers} from "../../redux/usersReducer";
 import {unFollow} from "../../redux/usersReducer";
 import {compose} from "redux";
 import {getFollowingInProgress, getIsFetching, getTotalUsersCount, getCurrentPage, getPageSize, getUsersSuperSelector} from "../../redux/usersSelectors";
+import {userType } from "../types/types";
+import { appStateType } from "../../redux/reduxStoreNew";
+type mapStateToPropsType={
+    currentPage:number,
+    pageSize:number,
+    isFetching:boolean,
+    totalUsersCount:number,
+    users: Array<userType>,    
+    followingInProgress:Array<number>
+}
+type mapDispatchToPropsType={
+    Follow:(userId:number)=>{},
+    unFollow:(userId:number)=>{},
+    getUsers:(currentPage:number, pageSize:number)=>void
 
+}
+type ownPropsType={
+    pageTitle:string
 
-class UsersContainer extends React.Component {
+}
+type propsType=mapDispatchToPropsType&mapStateToPropsType&ownPropsType
+class UsersContainer extends React.Component <propsType> {
     // constructor(props) {po ymolchaniuy pishetsya reactcomponent, kotoryi my nasledyem rashiryaem
     //     super(props);konstruktor po ymolchaniyu cosdaetsya
     // }
@@ -29,7 +48,7 @@ class UsersContainer extends React.Component {
         this.props.getUsers(currentPage, pageSize);
     }
 
-    onPageChanged = (pageNumber) => {
+    onPageChanged = (pageNumber:number) => {
         const {pageSize}=this.props
         this.props.getUsers(pageNumber, pageSize);
 
@@ -51,6 +70,7 @@ class UsersContainer extends React.Component {
 /* console.log("Users")
  */        return (<>
                {/*  {this.props.isFetching ? <Preloader/> : null} */}
+               <h2>{this.props.pageTitle}</h2>
                 <Users totalUsersCount={this.props.totalUsersCount}
                        pageSize={this.props.pageSize}
                        currentPage={this.props.currentPage}
@@ -67,7 +87,7 @@ class UsersContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:appStateType):mapStateToPropsType => {
 /*     console.log("mapStateToProps Users")
  */    return {
         users: getUsersSuperSelector(state),
@@ -118,7 +138,7 @@ const mapStateToProps = (state) => {
 //         unFollow,
 //         getUsers
 //     })(UsersContainer));
-export default compose(connect(mapStateToProps,
+export default compose(connect<mapStateToPropsType,mapDispatchToPropsType,ownPropsType,appStateType>(mapStateToProps,
     {
         Follow,
         unFollow,

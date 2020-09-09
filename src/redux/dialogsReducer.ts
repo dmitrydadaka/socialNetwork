@@ -1,6 +1,17 @@
+
 //const updateNewPostTextMessage = "updateNewPostTextMessage";
 const onButtonClickEventMessage = "onButtonClickEventMessage";
-let startState = {
+type dialogType={
+    id:number,
+    name: string,
+    avatar:string
+}
+type messageType={
+    id:number,
+    message:string
+}
+
+let initialState = {
     dialogs: [
         {
             id: 1,
@@ -32,7 +43,7 @@ let startState = {
             name: "Nasty",
             avatar: "https://image.shutterstock.com/image-vector/happy-african-american-girl-cartoon-260nw-522003124.jpg"
         }
-    ],
+    ] as Array<dialogType>,
     messages: [
         {message: "Hi, how are you?", id: 1},
         {message: "Hi, it's wonderful day", id: 2},
@@ -40,10 +51,11 @@ let startState = {
         {message: "Hi, go with me to play football", id: 4},
         {message: "Hi", id: 5},
         {message: "Hi, say your hobby, please", id: 6}
-    ]
+    ] as Array<messageType>
 
 }
-const dialogsReducer = (state = startState, action) => {
+export type initialStateType= typeof initialState
+const dialogsReducer = (state = initialState, action:any): initialStateType => {
     //let stateCopy={...state, messages:[state.messages]}
     //mogno prosto vynesty let stateCopy kak global a copiyu delat' vnutri action takoi glubiny kakaya est' neobhodimost'
     //let stateCopy
@@ -53,7 +65,8 @@ const dialogsReducer = (state = startState, action) => {
             //stateCopy=
             return {
                 ...state,
-                messages:[...state.messages,{id: 7, message: newPost}]
+                messages:[...state.messages,{id: 7, message: newPost}],
+                
             };
             // stateCopy.dialogs = [...state.dialogs];
             // stateCopy.messages = [...state.messages];
@@ -72,8 +85,13 @@ const dialogsReducer = (state = startState, action) => {
         default:
             return state;
     }
-
+ 
 }
-export const onButtonClickEventMessageActionCreator = (newPostTextInDialogs) => ({type: onButtonClickEventMessage, newPostTextInDialogs});
+type onButtonClickEventMessageActionCreatorType={
+    type:typeof onButtonClickEventMessage,
+    newPostTextInDialogs:string
+}
+export const onButtonClickEventMessageActionCreator = (newPostTextInDialogs:string):onButtonClickEventMessageActionCreatorType => 
+({type: onButtonClickEventMessage, newPostTextInDialogs});
 // export const updateNewPostTextMessageActionCreator = (body) => ({type: updateNewPostTextMessage, body});
 export default dialogsReducer;

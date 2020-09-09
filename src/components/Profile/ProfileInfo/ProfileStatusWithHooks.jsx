@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import s from "./ProfileInfo.module.css";
+
 
 
 
@@ -8,6 +8,7 @@ const ProfileStatusWithHooks = (props) => {
     //let stateWithSetState=useState(true);
     let [editMode, setEditMode] = useState(false);
     let [status, setStatus] = useState(props.status);
+    
 
     useEffect(() => {
         
@@ -20,8 +21,11 @@ const ProfileStatusWithHooks = (props) => {
         setEditMode(true);
     }
     const deActivateEditMode = () => {
+    
         setEditMode(false);
         props.updateStatus(status);
+        
+
 
     }
 
@@ -48,6 +52,7 @@ const ProfileStatusWithHooks = (props) => {
             {editMode &&
                 <div>
                     <input onBlur={deActivateEditMode} onChange={onStatusChange} autoFocus={true} value={status} />
+                    
                 </div>}
 
         </div>

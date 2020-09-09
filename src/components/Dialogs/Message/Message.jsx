@@ -20,9 +20,6 @@ const Message = (props) => {
     // }
     return (
         <div className={s.dialog}>
-
-
-
             <div className={s.message}>
                 {props.message}
             </div>

@@ -1,4 +1,4 @@
-let startState={
+let initialState={
     avatars: [
         {
             id: 1,
@@ -16,9 +16,17 @@ let startState={
             avatar: "https://library.kissclipart.com/20181213/vuw/kissclipart-business-man-cartoon-clipart-businessperson-capita-e980109693cfe80f.jpg "
         }
 
-    ]
+    ]as Array <avatarsType>
 }
-const friendsReducer=(state=startState)=>{
+
+ type avatarsType={
+    id:number,
+    name:string,
+    avatar: string
+
+}
+export type initialStateType=typeof initialState
+const friendsReducer=(state=initialState):initialStateType=>{
     return state;
 }
 export default friendsReducer;

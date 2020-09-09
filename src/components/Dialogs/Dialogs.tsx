@@ -5,18 +5,19 @@ import Message from "./Message/Message";
 import DialogReduxForm from "./DialogForm/DialogForm";
 
 
-const Dialogs = (props) => {
+const Dialogs = (props:any) => {
 
     let state = props.dialogsPage;
 
 
-    let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} avatar={d.avatar} id={d.id}/>);
-    let messagesElements = state.messages.map(m => <Message message={m.message}/>);
+    let dialogsElements = state.dialogs.map((d:any) => <DialogItem name={d.name} avatar={d.avatar} id={d.id}/>);
+    let messagesElements = state.messages.map((m:any )=> <Message message={m.message}/>);
     //let newPostTextMessage = state.newPostTextMessage;
 
 
-    let addNewMessage = (values) => {
+    let addNewMessage = (values:any) => {
         props.sendMessage(values.newPostTextInDialogs);
+        values.newPostTextInDialogs="";
     }
     //let onPostChange = (elementObjectTarget) => {
      //   let newPost = elementObjectTarget.target.value;
