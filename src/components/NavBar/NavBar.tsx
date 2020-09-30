@@ -2,6 +2,7 @@ import React from "react";
 import s from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
 import Friends from "../Friends/Friends";
+import {appStateType} from "../../redux/reduxStoreNew"
 
 
 console.log(s)
@@ -19,9 +20,9 @@ console.log(s)
 // let classesNew=`${c1} ${c2}`;
 //     `${s.item} ${s.active}`
 
-const NavBar = (props) =>{
+const NavBar:React.FC<appStateType> = ({friendsPage}) =>{
 
-    let state=props.friendsPage;
+    let state=friendsPage;
 
     let avatarsNew= state.avatars.map(a=> <Friends k={a.id} name={a.name} avatar={a.avatar}/>)
     return (

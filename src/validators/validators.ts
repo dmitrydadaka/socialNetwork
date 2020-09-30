@@ -1,14 +1,15 @@
-export const required=value=>{
+export type fieldValidatorsType=(value:string)=>string|undefined
+export const required:fieldValidatorsType=(value)=>{
     if(value) return undefined ;
         return "Field is required";
 
 }
-export const maxLengthCreator=(maxLength)=>(value)=>{
+export const maxLengthCreator=(maxLength:number):fieldValidatorsType=>(value)=>{
 
     if(value.length>maxLength) return `Max length is ${maxLength} symbols`;
     return undefined;
 }
-export const minLengthCreator=(minLength)=>(value)=>{
+export const minLengthCreator=(minLength:number):fieldValidatorsType=>(value)=>{
 
     if(value.length<minLength) return `Min length is ${minLength} symbols`;
     return undefined;

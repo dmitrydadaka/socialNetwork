@@ -31,5 +31,6 @@ export type userType={
     id:number|null,
     name:string|null,
     status:string|null,
-    photos:photosType
+    photos:photosType,
+    followed:boolean
 }

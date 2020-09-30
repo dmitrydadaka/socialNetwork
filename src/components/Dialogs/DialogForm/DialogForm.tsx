@@ -1,12 +1,13 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
-
-
 import { Textarea } from "../../common/formControls/formControls";
 import { required, maxLengthCreator } from "../../../validators/validators";
 
 const maxLength50=maxLengthCreator(50);
-const DialogForm = (props) => {
+type propsType={
+    handleSubmit:any
+}
+const DialogForm:React.FC<propsType>= ({handleSubmit}) => {
     // let state = props.dialogsPage;
     // // let newPostTextMessage = state.newPostTextMessage;
     // let onButtonClick = () => {
@@ -18,7 +19,7 @@ const DialogForm = (props) => {
     // }
     return (
 
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
 
             <div>
                 <Field   name={"newPostTextInDialogs"} validate={[required,maxLength50]} placeholder={"Enter your message"}

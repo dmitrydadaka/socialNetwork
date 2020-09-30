@@ -4,9 +4,14 @@ import Post from "./Post/Post";
 import { MyPostsReduxForm } from "../MyPostsForm/MyPostsForm";
 import { reset } from 'redux-form'
 import { render } from "@testing-library/react";
+import { postsType } from "../../types/types";
 
 //window.props=[];
-const MyPosts=React.memo(props=>  {
+type propsType={
+    onButtonClick:(value:any)=>void,
+    posts:Array<postsType>
+}
+const MyPosts:React.FC<propsType>=React.memo(({onButtonClick, posts, ...props})=>  {
     /* window.props.push(props);
     console.log("render");
     console.log(props); */
@@ -47,11 +52,11 @@ const MyPosts=React.memo(props=>  {
         console.log("render");
         console.log(props); */
 
-        let postsElements = [...props.posts]
+        let postsElements = [...posts]
         .reverse()
         .map(p => <Post  message={p.message} key={p.id} likescount={p.likescount} />);
-        let addNewPostText = (value, dispatch) => {
-            props.onButtonClick(value.newPostText);
+        let addNewPostText = (value:any, dispatch:any) => {
+            onButtonClick(value.newPostText);
             dispatch(reset('MyPostsForm'))
         }
 

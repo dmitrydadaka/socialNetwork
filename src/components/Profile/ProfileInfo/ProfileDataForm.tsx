@@ -1,14 +1,18 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 //import { Contact } from "./ProfileInfo";
-import { createField, Input, Textarea } from "../../common/formControls/formControls"
-import { reduxForm } from "redux-form";
+import { createField, Input, GetStringKeys ,Textarea } from "../../common/formControls/formControls"
+import { reduxForm, InjectedFormProps } from "redux-form";
 import style from "../../common/formControls/FormControls.module.css";
+import { profileType } from "../../types/types";
 
 
+type propsType = {
+    profile: profileType
+}
+type profileTypeKeys = GetStringKeys<profileType>
 
-
-const ProfileDataForm = ({ handleSubmit, profile, error }) => {
+const ProfileDataForm: React.FC<InjectedFormProps<profileType, propsType> & propsType>= ({ handleSubmit, profile, error }) => {
     return (
 
         <form onSubmit={handleSubmit}>
@@ -28,7 +32,7 @@ const ProfileDataForm = ({ handleSubmit, profile, error }) => {
 
 
                 <div>
-                    <b>Fullname</b>:{createField(Input, [], "fullName", "Full name")}
+                    <b>Fullname</b>:{createField (Input, [], "fullName", "Full name")}
                 </div>
                 <div>
                     <b>Looking for a job</b>: {createField(Input, [], "lookingForaJob", "", { type: "checkbox" })}
@@ -57,5 +61,5 @@ const ProfileDataForm = ({ handleSubmit, profile, error }) => {
 
     )
 }
-export const ProfileDataReduxForm = reduxForm({ form: 'editProfile' })(ProfileDataForm);
+export const ProfileDataReduxForm = reduxForm<profileType, propsType>({ form: 'editProfile' })(ProfileDataForm);
 export default ProfileDataReduxForm;

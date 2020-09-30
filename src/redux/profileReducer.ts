@@ -1,14 +1,13 @@
-import { profileAPI, UsersAPI } from "../API/api";
-import { stopSubmit } from "redux-form";
+import { profileAPI } from "../API/profileApi";
+import { FormAction, stopSubmit } from "redux-form";
 import Swal from 'sweetalert2';
 import { postsType, profileType, photosType } from "../components/types/types";
-const updateNewPostText = "updateNewPostText";
-const onButtonClickEvent = "onButtonClickEvent";
-const setUserProfile = "setUserProfile";
-const setStatus = "setStatus";
-const setPhoto = "setPhoto"
-const deletePost = "deletePost";
-const errorMessage = "errorMessage";
+import { ThunkAction } from "redux-thunk";
+import { appStateType, baseThunkType, InferActionsTypes } from "./reduxStoreNew";
+import { UsersAPI } from "../API/userApi";
+import { resultCodesEnum } from "../API/api";
+
+const updateNewPostText = "SN/PROFILE/updateNewPostText";
 let initialState = {
     posts: [
         { id: 1, message: "Hi, how are you?", likescount: 23 },
@@ -21,11 +20,11 @@ let initialState = {
 
     profile: null as profileType | null,
     status: "",
-    error: null as any|null,
-    newPostText:""
+    error: null as any | null,
+    newPostText: ""
 };
-type errorType={
-    error:any
+type errorType = {
+    error: any
 }
 
 
@@ -36,10 +35,9 @@ type errorType={
     posts:Array<postsType>
 
 } */
-export type initialStateType=typeof initialState
-const profileReducer = (state = initialState, action: any):initialStateType => {
+const profileReducer = (state = initialState, action: actionTypes): initialStateType => {
     switch (action.type) {
-        case onButtonClickEvent:
+        case "SN/PROFILE/onButtonClickEvent":
             // let newPost = {
             //     id: 6,
             //     message: state.newPostText,
@@ -63,15 +61,15 @@ const profileReducer = (state = initialState, action: any):initialStateType => {
         //     // stateCopy.newPostText = action.newPost;
         // return stateCopy;}
 
-        case setUserProfile:
+        case "SN/PROFILE/setUserProfile":
             return { ...state, profile: action.profile };
-        case setStatus:
+        case "SN/PROFILE/setStatus":
             return { ...state, status: action.status };
-        case deletePost:
+        case "SN/PROFILE/deletePost":
             return { ...state, posts: state.posts.filter(p => p.id != action.postId) }
-        case setPhoto:
-            return { ...state,profile:{...state.profile, photos: action.photos }as profileType } ;
-        case errorMessage:
+        case  "SN/PROFILE/setPhoto":
+            return { ...state, profile: { ...state.profile, photos: action.photos } as profileType };
+        case "SN/PROFILE/errorMessage":
             return { ...state.error, error: action.error }
         default:
 
@@ -80,85 +78,67 @@ const profileReducer = (state = initialState, action: any):initialStateType => {
 
     }
 };
-type deletePostActionCreatorType={
-    type:typeof deletePost,
-    postId: number
+/* type actionTypes=deletePostActionCreatorType|onButtonClickEventActionCreatorType|updateNewPostTextActionCreatorType|setUserProfileACType|
+setStatusACType|savePhotoSuccessType|errorMessageACType */
+
+export const actions =
+{
+    deletePostActionCreator: (postId: number) => ({ type: "SN/PROFILE/deletePost", postId } as const),
+
+    onButtonClickEventActionCreator: (newPostText: string) =>
+        ({ type:"SN/PROFILE/onButtonClickEvent", newPostText } as const),
+
+    updateNewPostTextActionCreator: (text: string) =>
+        ({ type: updateNewPostText, newPost: text } as const),
+
+
+    setUserProfileAC: (profile: profileType) => ({ type: "SN/PROFILE/setUserProfile", profile } as const),
+
+    setStatusAC: (status: string) => ({ type: "SN/PROFILE/setStatus", status } as const),
+
+    savePhotoSuccess: (photos: photosType) => ({ type:  "SN/PROFILE/setPhoto", photos } as const),
+
+    errorMessageAC: (error: any) => ({ type: "SN/PROFILE/errorMessage", error } as const)
 }
-export const deletePostActionCreator = (postId:number): deletePostActionCreatorType => ({ type: deletePost, postId });
-type onButtonClickEventActionCreatorType={
-type: typeof onButtonClickEvent,
-newPostText:string,
-
-}
-export const onButtonClickEventActionCreator = (newPostText:string):onButtonClickEventActionCreatorType =>
- ({ type: onButtonClickEvent, newPostText });
- type updateNewPostTextActionCreatorType={
-     type:typeof updateNewPostText,
-     newPost:string
- }
-export const updateNewPostTextActionCreator = (text:string):updateNewPostTextActionCreatorType => 
-({ type: updateNewPostText, newPost: text });
-
-type setUserProfileACType={
-    type:typeof setUserProfile,
-    profile:profileType
-}
-export const setUserProfileAC = (profile:profileType):setUserProfileACType => ({ type: setUserProfile, profile });
-type setStatusACType={
-type:typeof setStatus,
-status:string
-}
-export const setStatusAC = (status:string):setStatusACType => ({ type: setStatus, status });
-type savePhotoSuccessType={
-    type:typeof setPhoto,
-    photos:photosType
-
-}
-export const savePhotoSuccess = (photos:photosType):savePhotoSuccessType => ({ type: setPhoto, photos });
-type errorMessageACType={
-    type: typeof errorMessage,
-    error:any
-}
-export const errorMessageAC = (error:any): errorMessageACType => ({ type: errorMessage, error })
 
 
 
-export const getUserProfile = (userId:number) => async (dispatch:any) => {
+export const getUserProfile = (userId: number): thunkType => async (dispatch) => {
 
-    let response = await UsersAPI.getProfile(userId)
+    let data = await profileAPI.getProfile(userId)
     /*  .then(response => { */
-    dispatch(setUserProfileAC(response.data));
+    dispatch(actions.setUserProfileAC(data));
 
 };
 
-export const getStatus = (userId:number) => async (dispatch:any) => {
+export const getStatus = (userId: number): thunkType => async (dispatch) => {
 
-    let response = await profileAPI.getStatus(userId)
+    let data = await profileAPI.getStatus(userId)
 
 
-    dispatch(setStatusAC(response.data));
+    dispatch(actions.setStatusAC(data));
 
 
 };
-export const errorUpdateStatusMessage = (status:string, error:any) => async (dispatch:any) => {
+export const errorUpdateStatusMessage = (status: string, error: any): thunkType => async (dispatch) => {
 
-    const response = await profileAPI.updateStatus(status)
+    const data = await profileAPI.updateStatus(status)
 
-    if (response.data.resultCode != 0) { dispatch(errorMessageAC(error)) }
+    if (data.resultCode != resultCodesEnum.Success) { dispatch(actions.errorMessageAC(error)) }
 
 }
 
-export const updateStatus = (status:string) => async (dispatch:any) => {
+export const updateStatus = (status: string): thunkType => async (dispatch) => {
     debugger
 
     try {
-        const response = await profileAPI.updateStatus(status)
+        const data = await profileAPI.updateStatus(status)
 
-        if (response.data.resultCode === 0) { dispatch(setStatusAC(status)) }
+        if (data.resultCode === resultCodesEnum.Success) { dispatch(actions.setStatusAC(status)) }
     }
     catch (error) {
 
-        errorUpdateStatusMessage(status,error);
+        errorUpdateStatusMessage(status, error);
         // alert(error)
         Swal.fire({
             title: 'Error!',
@@ -173,47 +153,65 @@ export const updateStatus = (status:string) => async (dispatch:any) => {
 
 
 };
-export const savePhoto = (file:any) => async (dispatch:any) => {
+export const savePhoto = (file: File): thunkType => async (dispatch) => {
 
     let response = await profileAPI.savePhoto(file)
 
-    if (response.data.resultCode === 0) { dispatch(savePhotoSuccess(response.data.data.photos)) }
+    if (response.data.resultCode === 0) { dispatch(actions.savePhotoSuccess(response.data.data.photos)) }
 
 
 };
-export const saveProfile = (profile:profileType) => async (dispatch:any, getState:any) => {
+export const saveProfile = (profile: profileType): thunkType => async (dispatch, getState) => {
     const userId = getState().auth.userId
-    const response = await profileAPI.saveProfile(profile)
+    const data = await profileAPI.saveProfile(profile)
 
-    if (response.data.resultCode === 0) { dispatch(getUserProfile(userId)) }
-    else { /* let wrongNetwork = response.data.messages[0]
-        .slice(
-          response.data.messages[0].indexOf(">") + 1,
-          response.data.messages[0].indexOf(")")
-        )
-        .toLocaleLowerCase(); */        //popisyvaet-vyvodit soobshchenie pod nygnym inputom
+    if (data.resultCode === resultCodesEnum.Success) {
+        if (userId != null) { dispatch(getUserProfile(userId)) }
+        else {
+            throw new Error("userId can't be null")
+        }
+    }
+    else {
 
-
-        // let confirmButtonText = response.data.messages[0].match(/Contacts->(\w+)/)[1]
-        let keySwal = response.data.messages[0].match(/Contacts->(\w+)/)[1].toLowerCase();
-
-        Swal.fire({
-            title: 'Error!',
-            text: 'You wrote not right site',
-            icon: 'error',
-            confirmButtonText: keySwal
-        })
-        let key = response.data.messages[0].match(/Contacts->(\w+)/)[1].toLowerCase();
-        dispatch(
-            stopSubmit("editProfile", {
-                contacts: { [key]: response.data.messages[0] }
-            })
-        )
-        return Promise.reject(response.data.messages[0]
-        )
+        dispatch(stopSubmit("edit-profile", { _error: data.messages[0] }))
+        return Promise.reject(data.messages[0])
 
     }
 
+    /* let wrongNetwork = response.data.messages[0]
+    .slice(
+      response.data.messages[0].indexOf(">") + 1,
+      response.data.messages[0].indexOf(")")
+    )
+    .toLocaleLowerCase(); */        //popisyvaet-vyvodit soobshchenie pod nygnym inputom
+
+
+    // let confirmButtonText = response.data.messages[0].match(/Contacts->(\w+)/)[1]
+    /*    let keySwal = response.data.messages[0].match(/Contacts->(\w+)/)[1].toLowerCase();
+
+       Swal.fire({
+           title: 'Error!',
+           text: 'You wrote not right site',
+           icon: 'error',
+           confirmButtonText: keySwal
+       })
+       let key = response.data.messages[0].match(/Contacts->(\w+)/)[1].toLowerCase();
+       dispatch(
+           stopSubmit("editProfile", {
+               contacts: { [key]: response.data.messages[0] }
+           })
+       )
+       return Promise.reject(response.data.messages[0]
+       )
+
+   } */
+   
+
 
 }
+
+type thunkType = baseThunkType<actionTypes|FormAction>
+export type actionTypes = InferActionsTypes<typeof actions>
+export type initialStateType = typeof initialState
+
 export default profileReducer;

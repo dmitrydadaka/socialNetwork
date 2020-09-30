@@ -4,7 +4,7 @@ import { maxLengthCreator,  required} from "../../../validators/validators";
 import { Textarea } from "../../common/formControls/formControls";
 
 const maxLength10=maxLengthCreator(10);
-const MyPostsForm = (props) => {
+const MyPostsForm = ({handleSubmit}:any) => {
 
     //let newPost = React.createRef();
 
@@ -23,7 +23,7 @@ const MyPostsForm = (props) => {
     
     return (
 
-        <form onSubmit={props.handleSubmit} >
+        <form onSubmit={handleSubmit} >
             <div>
                 <Field   name={"newPostText"} component={Textarea} placeholder={"enter message"}
                          validate={[required, maxLength10]}  />

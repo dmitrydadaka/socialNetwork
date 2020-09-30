@@ -1,6 +1,7 @@
+import { InferActionsTypes } from "./reduxStoreNew";
 
 //const updateNewPostTextMessage = "updateNewPostTextMessage";
-const onButtonClickEventMessage = "onButtonClickEventMessage";
+const onButtonClickEventMessage = "SN/dialogs/onButtonClickEventMessage";
 type dialogType={
     id:number,
     name: string,
@@ -54,13 +55,12 @@ let initialState = {
     ] as Array<messageType>
 
 }
-export type initialStateType= typeof initialState
-const dialogsReducer = (state = initialState, action:any): initialStateType => {
+const dialogsReducer = (state = initialState, action:actionTypes): initialStateType => {
     //let stateCopy={...state, messages:[state.messages]}
     //mogno prosto vynesty let stateCopy kak global a copiyu delat' vnutri action takoi glubiny kakaya est' neobhodimost'
     //let stateCopy
     switch (action.type) {
-        case onButtonClickEventMessage:
+        case "SN/dialogs/onButtonClickEventMessage":
             let newPost = action.newPostTextInDialogs;
             //stateCopy=
             return {
@@ -87,11 +87,13 @@ const dialogsReducer = (state = initialState, action:any): initialStateType => {
     }
  
 }
-type onButtonClickEventMessageActionCreatorType={
-    type:typeof onButtonClickEventMessage,
-    newPostTextInDialogs:string
+export const actions={
+    onButtonClickEventMessageActionCreator : (newPostTextInDialogs:string) => 
+    ({type: "SN/dialogs/onButtonClickEventMessage", newPostTextInDialogs} as const)  
 }
-export const onButtonClickEventMessageActionCreator = (newPostTextInDialogs:string):onButtonClickEventMessageActionCreatorType => 
-({type: onButtonClickEventMessage, newPostTextInDialogs});
+
+type actionTypes=InferActionsTypes<typeof actions>
+export type initialStateType= typeof initialState
+
 // export const updateNewPostTextMessageActionCreator = (body) => ({type: updateNewPostTextMessage, body});
 export default dialogsReducer;

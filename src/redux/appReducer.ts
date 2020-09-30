@@ -1,6 +1,9 @@
+import { Dispatch } from "react";
+import { ThunkAction } from "redux-thunk";
 import { getAuthUserData } from "./authReducer";
+import { appStateType, InferActionsTypes } from "./reduxStoreNew";
 
-const initializedSuccess = "initializedSuccess";
+const initializedSuccess = "SN/APP/initializedSuccess";
 
 /* type initializedSuccessType={
     id:number,
@@ -9,37 +12,42 @@ const initializedSuccess = "initializedSuccess";
 
   
 let initialState = {
-    initialized: null as boolean|null 
+    initialized: false  
 };
 export type initialStateType = typeof initialState;
 
-const appReducer = (state= initialState, action:initializedSuccessType):initialStateType => {
+const appReducer = (state= initialState, action:actionsType):initialStateType => {
     switch (action.type) {
-        case initializedSuccess:
+        case "SN/APP/initializedSuccess":
 
             return {
                 ...state,
                 initialized:true
-
             };
 
         default:
             return state;
     }
 };
-type initializedSuccessType={
+/* type initializedSuccessType={
 
     type: typeof initializedSuccess//typeOf chtoby ispolzovat' peremennyu dlya izbavleniya ot opechatok
+  } */
+ export  const actions={
+     initializedSuccessAC : ()=>
+    ({ type: "SN/APP/initializedSuccess"}as const) 
   }
-export const initializedSuccessAC = ():initializedSuccessType =>
-    ({ type: initializedSuccess });
+  type actionsType=InferActionsTypes<typeof actions>
+/* export const initializedSuccessAC = ():initializedSuccessType =>
+    ({ type: initializedSuccess }); */
 
+    type thunkType = ThunkAction<void, appStateType, unknown, actionsType>
 
-export const initializeApp = () => (dispatch:any) => {
+export const initializeApp = ()=> (dispatch:any) => {
    let promise=dispatch(getAuthUserData());
    //promise.all([promise1,promise2]) esli nesk promisov
    promise.then(() => {(
-   dispatch(initializedSuccessAC()));
+   dispatch(actions.initializedSuccessAC()));
    }) 
 };
 

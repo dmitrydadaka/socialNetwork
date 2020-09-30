@@ -1,9 +1,11 @@
 import React from "react";
 import s from "./../Dialogs.module.css";
 
+type propsType={
+    message:string
+}
 
-
-const Message = (props) => {
+const Message:React.FC<propsType> = ({message}) => {
 
 
     // let onButtonClick = () => {
@@ -21,7 +23,7 @@ const Message = (props) => {
     return (
         <div className={s.dialog}>
             <div className={s.message}>
-                {props.message}
+                {message}
             </div>
 
         </div>

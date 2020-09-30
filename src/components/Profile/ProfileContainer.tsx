@@ -4,9 +4,32 @@ import { getStatus, getUserProfile, updateStatus, savePhoto, saveProfile } from 
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
+import { appStateType } from "../../redux/reduxStoreNew";
+import { profileType } from "../types/types";
 //import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
-class ProfileContainer extends React.Component {
+
+type mapDispatchToPropsType={
+    
+    getUserProfile:(userId:number)=>void,
+    getStatus:(status:string)=>{},
+    updateStatus:(status:string)=>{},
+    savePhoto:()=>void,
+    saveProfile:(formData:any) => Promise<any>
+
+}
+type ownPropsType={
+    match:any,
+    history:any,
+    authUserId:any,
+    profile:profileType,
+    status:string,
+    error:any
+
+
+}
+type propsType=mapDispatchToPropsType&ownPropsType
+class ProfileContainer extends React.Component <propsType> {
     refreshMethod() {
         let userId = this.props.match.params.userId;
 
@@ -26,7 +49,7 @@ class ProfileContainer extends React.Component {
 
 
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps:any, prevState:any, snapshot:any) {
         //na luboi chih update, poetomu stavim uslovie
         if (this.props.match.params.userId != prevProps.match.params.userId)
          { this.refreshMethod() }
@@ -40,7 +63,7 @@ class ProfileContainer extends React.Component {
         return (
             <Profile savePhoto={this.props.savePhoto}
                 isOwner={!this.props.match.params.userId}
-                {...this.props} profile={this.props.profile}
+                profile={this.props.profile}
                 status={this.props.status}
                 updateStatus={this.props.updateStatus}
                 saveProfile={this.props.saveProfile}
@@ -62,7 +85,7 @@ class ProfileContainer extends React.Component {
 // return <ProfileContainer {...props}/>}
 
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state:appStateType) => {
     //console.log("mapStateToProps render");
     return ({
         profile: state.profilePage.profile,

@@ -1,4 +1,5 @@
-import profileReducer, { onButtonClickEventActionCreator, deletePostActionCreator } from "./profileReducer";
+import { profileType } from "../components/types/types";
+import profileReducer, { actions } from "./profileReducer";
 /* import React from 'react';
 import App from './App'; */
 let state = {
@@ -9,11 +10,15 @@ let state = {
         { id: 4, message: "superrrrrrrrrrrrr", likescount: 596 },
         { id: 5, message: "uraaaaaaaaaaaaa", likescount: 1020 }
     
-    ]}
+    ],
+    profile: null,
+    status: "",
+    error: null ,
+    newPostText: ""}
 
 test('length posts should be incremented', () => {
     //1 gotovim isxodnye dannye
-    let action = onButtonClickEventActionCreator("it-kamasutra.com");
+    let action = actions.onButtonClickEventActionCreator("it-kamasutra.com");
 
                 
        /*  profile: null,
@@ -27,7 +32,7 @@ test('length posts should be incremented', () => {
 test('message should be only the same', () => {
     //1 gotovim isxodnye dannye
    
-    let action = onButtonClickEventActionCreator("it-kamasutra.com");
+    let action = actions.onButtonClickEventActionCreator("it-kamasutra.com");
   
                 
        /*  profile: null,
@@ -42,7 +47,7 @@ test('message should be only the same', () => {
 test('after dlelting post should be decrement', () => {
     //1 gotovim isxodnye dannye
    
-    let action = deletePostActionCreator(1);
+    let action = actions.deletePostActionCreator(1);
 
                 
        /*  profile: null,
@@ -57,7 +62,7 @@ test('after dlelting post should be decrement', () => {
 test('after delelting post shouldn not be decrement if id dont exist or incoorrect', () => {
     //1 gotovim isxodnye dannye
    
-    let action = deletePostActionCreator(1000);
+    let action = actions.deletePostActionCreator(1000);
 
                 
        /*  profile: null,

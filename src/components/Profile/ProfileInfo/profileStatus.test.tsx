@@ -9,6 +9,8 @@ describe("ProfileStatus component", () => {
       expect(instance.state.status).toBe("it-kamasutra.com");
     }); */
     test("after creation span should be displayed", () => {
+      //@ts-ignore
+
         const component = create(<ProfileStatus status="it-kamasutra.com" />);
         const root = component.root;
         let span = root.findByType("span");
@@ -16,6 +18,8 @@ describe("ProfileStatus component", () => {
   
       });
       test("after creation span should not be displayed", () => {
+        //@ts-ignore
+
         const component = create(<ProfileStatus status="it-kamasutra.com" />);
         const root = component.root;
         expect(()=>{        let input = root.findByType("input");
@@ -23,6 +27,8 @@ describe("ProfileStatus component", () => {
   
       });
       test("after creation span should be contains with correct status", () => {
+        //@ts-ignore
+
         const component = create(<ProfileStatus status="it-kamasutra.com" />);
         const root = component.root;
         let span =root.findByType("span");
@@ -30,6 +36,8 @@ describe("ProfileStatus component", () => {
   
       });
       test("input shoul be instead span after click", () => {
+        //@ts-ignore
+
         const component = create(<ProfileStatus status="it-kamasutra.com" />);
         const root = component.root;
         let span =root.findByType("span");
@@ -43,6 +51,8 @@ describe("ProfileStatus component", () => {
         const mockCallback=jest.fn()
         const component = create(<ProfileStatus status="it-kamasutra.com" updateStatus={mockCallback} />);
         const instance =component.getInstance();
+        //@ts-ignore
+
         instance.deactivateEditMode();
 
         expect(mockCallback.mock.calls.length).toBe(1);

@@ -3,11 +3,11 @@ import s from "./ProfileInfo.module.css";
 
 type propsType={
 status:string,
-updateStatus:(newStatus:string)=>void
+updateStatus:(newStatus:any)=>void
 }
 type stateType={
     editMode:boolean,
-    status:string
+    status:any
 
 }
 class ProfileStatus extends React.Component<propsType,stateType> {

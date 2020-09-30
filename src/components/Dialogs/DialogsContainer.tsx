@@ -1,9 +1,9 @@
 import React from "react";
-import {onButtonClickEventMessageActionCreator} from "../../redux/dialogsReducer";
+import {actions} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import { appStateType } from "../../redux/reduxStoreNew";
 
 
 
@@ -22,15 +22,15 @@ import {compose} from "redux";
 // </ContextStore.Consumer>
 //
 //     )}
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:appStateType) => {
     return {
         dialogsPage:state.dialogsPage,
     }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch:any) => {
     return {
-        sendMessage: (newPostTextInDialogs) => {
-            dispatch(onButtonClickEventMessageActionCreator(newPostTextInDialogs));
+        sendMessage: (newPostTextInDialogs:any) => {
+            dispatch(actions.onButtonClickEventMessageActionCreator(newPostTextInDialogs));
         }
         // updateNewPostTextMessage: (body) => {
         //     dispatch(updateNewPostTextMessageActionCreator(body))
@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch) => {
 
 
 // const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
-export default compose(
+export default compose<React.ComponentType>(
     connect(mapStateToProps, mapDispatchToProps)
 )(Dialogs);
 

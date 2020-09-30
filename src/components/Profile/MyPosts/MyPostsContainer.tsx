@@ -1,18 +1,19 @@
-import {onButtonClickEventActionCreator, updateNewPostTextActionCreator} from "../../../redux/profileReducer";
+import {actions} from "../../../redux/profileReducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
+import { appStateType } from "../../../redux/reduxStoreNew";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:appStateType) => {
     return {
         posts: state.profilePage.posts,
         newPostText: state.profilePage.newPostText
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch:any) => {
     return {
-        onButtonClick: (newPostText) => {
-            dispatch(onButtonClickEventActionCreator(newPostText));
+        onButtonClick: (newPostText:string) => {
+            dispatch(actions.onButtonClickEventActionCreator(newPostText));
         },
         // updateNewPostText: (text) => {
         //     dispatch(updateNewPostTextActionCreator(text))
