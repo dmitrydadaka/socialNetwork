@@ -2,14 +2,21 @@ import React from "react";
 import NavBar from "./NavBar";
 import {connect} from "react-redux";
 import { appStateType } from "../../redux/reduxStoreNew";
+import { avatarsType, initialStateType } from "../../redux/friendsReducer";
+import { compose } from "redux";
+type mapStateToPropsType={
+    
+    friendsPage:{avatars:avatarsType[]}
 
-const mapStateToProps=(state:appStateType)=>{
+}
+type propsType={}
+const mapStateToProps=(state:appStateType):mapStateToPropsType=>{
 
     return {
         friendsPage: state.friendsPage
     }
 };
 
-const NavBarContainer=connect(mapStateToProps)(NavBar);
+const NavBarContainer=compose<React.ComponentType>(connect<mapStateToPropsType,{},propsType,appStateType>(mapStateToProps))(NavBar);
 export default  NavBarContainer;
 

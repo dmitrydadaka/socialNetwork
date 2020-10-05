@@ -22,8 +22,10 @@ type rootReducerType=typeof rootReducer// (globalthis:appStateType)=>appStateTyp
 export type appStateType= ReturnType<rootReducerType>
 //export type InferActionsTypes<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never
 
-export type PropertiesTypes <T> = T extends { [keys: string]: (...args:any[]) =>infer U  }? U : never
-export type InferActionsTypes<T extends  {[keys:string]:(...args:any[])=>any}>=ReturnType<PropertiesTypes<T>>
+//export type PropertiesTypes <T> = T extends { [keys: string]: (...args:any[]) =>infer U  }? U : never
+export type InferActionsTypes<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never
+
+//export type InferActionsTypes<T>=T extends  {[keys:string]:(...args:any[])=>infer U}?U:never
 export type baseThunkType<A extends Action=Action>=ThunkAction<void, appStateType, unknown, A>
 
 //@ts-ignore

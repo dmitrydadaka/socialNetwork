@@ -1,25 +1,21 @@
 import {actions} from "../../../redux/profileReducer";
-import MyPosts from "./MyPosts";
+import MyPosts, { mapDispatchToPropsType, mapStateToPropsType } from "./MyPosts";
 import {connect} from "react-redux";
 import { appStateType } from "../../../redux/reduxStoreNew";
 
 const mapStateToProps = (state:appStateType) => {
     return {
         posts: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText
-    }
+    } as mapStateToPropsType
 }
-
+/* 
 const mapDispatchToProps = (dispatch:any) => {
     return {
         onButtonClick: (newPostText:string) => {
             dispatch(actions.onButtonClickEventActionCreator(newPostText));
-        },
-        // updateNewPostText: (text) => {
-        //     dispatch(updateNewPostTextActionCreator(text))
-        // }
+        }
     }
-}
+} */
 
 
 // const MyPostsContainer = (props) => {
@@ -42,5 +38,5 @@ const mapDispatchToProps = (dispatch:any) => {
 //     )}
 
 
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps )(MyPosts);
+const MyPostsContainer= connect<mapStateToPropsType,mapDispatchToPropsType,{},appStateType>(mapStateToProps, {onButtonClick:actions.onButtonClickEventActionCreator} )(MyPosts);
 export default MyPostsContainer;

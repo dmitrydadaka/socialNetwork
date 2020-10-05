@@ -62,7 +62,7 @@ export type loginValuesType={
     email:string, password:string, rememberMe:boolean, captcha:string
 }
 //type loginValuesTypeKeys= Extract<keyof loginValuesType, string>
-type loginValuesTypeKeys = GetStringKeys<loginValuesType>
+export type loginValuesTypeKeys = GetStringKeys<loginValuesType>
 
 const Login:React.FC<mapStateToPropsType&mapDispatchToPropsType> = (props) => {
 

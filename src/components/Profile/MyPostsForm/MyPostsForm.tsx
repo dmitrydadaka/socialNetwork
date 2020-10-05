@@ -1,10 +1,13 @@
 import React from "react";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import { maxLengthCreator,  required} from "../../../validators/validators";
-import { Textarea } from "../../common/formControls/formControls";
+import { createField, GetStringKeys, Textarea } from "../../common/formControls/formControls";
 
 const maxLength10=maxLengthCreator(10);
-const MyPostsForm = ({handleSubmit}:any) => {
+type propsType={
+
+}
+const MyPostsForm:React.FC<InjectedFormProps<MyPostsValuesType,propsType>&propsType>  = (props) => {
 
     //let newPost = React.createRef();
 
@@ -23,10 +26,11 @@ const MyPostsForm = ({handleSubmit}:any) => {
     
     return (
 
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={props.handleSubmit} >
             <div>
-                <Field   name={"newPostText"} component={Textarea} placeholder={"enter message"}
-                         validate={[required, maxLength10]}  />
+            {createField<MyPostsValuesTypeKeys>(Textarea, [required,maxLength10], "newPostText",  "enter message", { })}
+               
+               
             </div>
 
             <div>
@@ -35,36 +39,17 @@ const MyPostsForm = ({handleSubmit}:any) => {
         </form>
     )
 }
- export const MyPostsReduxForm=reduxForm({
+ export const MyPostsReduxForm=reduxForm<MyPostsValuesType,propsType>({
     // a unique name for the form
     form: 'MyPostsForm'
 })(MyPostsForm);
 
+export type MyPostsValuesType={
+    newPostText:string
+}
 
-//  const MyPostsInForm = (props) => {
-//     return (
-//         <div>
-//             <MyPostsReduxForm onSubmit={props.onSubmit} />
-//         </div>
-//     )
-// }
-// const mapStateToProps = (state) => {
-//     return {
-//         posts: state.profilePage.posts,
-//         newPostText: state.profilePage.newPostText
-//     }
-// }
-//
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         onButtonClick: () => {
-//             dispatch(onButtonClickEventActionCreator());
-//         },
-//         updateNewPostText: (text) => {
-//             dispatch(updateNewPostTextActionCreator(text))
-//         }
-//     }
-// }
+type MyPostsValuesTypeKeys = GetStringKeys<MyPostsValuesType>
+
 
 
 

@@ -1,15 +1,19 @@
 import React from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import { MyPostsReduxForm } from "../MyPostsForm/MyPostsForm";
+import { MyPostsReduxForm, MyPostsValuesType } from "../MyPostsForm/MyPostsForm";
 import { reset } from 'redux-form'
 import { render } from "@testing-library/react";
 import { postsType } from "../../types/types";
 
 //window.props=[];
-type propsType={
-    onButtonClick:(value:any)=>void,
+type propsType=mapStateToPropsType&mapDispatchToPropsType
+export type mapStateToPropsType={
     posts:Array<postsType>
+}
+export type mapDispatchToPropsType={
+    onButtonClick:(newPostText:string)=>void
+
 }
 const MyPosts:React.FC<propsType>=React.memo(({onButtonClick, posts, ...props})=>  {
     /* window.props.push(props);
@@ -55,7 +59,7 @@ const MyPosts:React.FC<propsType>=React.memo(({onButtonClick, posts, ...props})=
         let postsElements = [...posts]
         .reverse()
         .map(p => <Post  message={p.message} key={p.id} likescount={p.likescount} />);
-        let addNewPostText = (value:any, dispatch:any) => {
+        let addNewPostText = (value:MyPostsValuesType, dispatch:any) => {
             onButtonClick(value.newPostText);
             dispatch(reset('MyPostsForm'))
         }

@@ -1,13 +1,16 @@
-import React from "react";
-import {Field, reduxForm} from "redux-form";
-import { Textarea } from "../../common/formControls/formControls";
-import { required, maxLengthCreator } from "../../../validators/validators";
+import React from "react"
+import {Field, InjectedFormProps, reduxForm, SubmitHandler} from "redux-form"
+import { createField, GetStringKeys, Textarea } from "../../common/formControls/formControls"
+import { required, maxLengthCreator } from "../../../validators/validators"
+import { newPostInDialogsValuesType } from "../Dialogs";
 
 const maxLength50=maxLengthCreator(50);
+
 type propsType={
-    handleSubmit:any
 }
-const DialogForm:React.FC<propsType>= ({handleSubmit}) => {
+type newPostInDialogsValuesTypeKeys = GetStringKeys<newPostInDialogsValuesType>
+
+const DialogForm:React.FC<InjectedFormProps<newPostInDialogsValuesType, propsType>&propsType>= (props) => {
     // let state = props.dialogsPage;
     // // let newPostTextMessage = state.newPostTextMessage;
     // let onButtonClick = () => {
@@ -19,9 +22,11 @@ const DialogForm:React.FC<propsType>= ({handleSubmit}) => {
     // }
     return (
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={props.handleSubmit}>
 
             <div>
+            {createField<newPostInDialogsValuesTypeKeys>(Textarea, [required,maxLength50], "newPostTextInDialogs", "Enter your message")}
+
                 <Field   name={"newPostTextInDialogs"} validate={[required,maxLength50]} placeholder={"Enter your message"}
                        component={Textarea} />
             </div>
@@ -31,7 +36,7 @@ const DialogForm:React.FC<propsType>= ({handleSubmit}) => {
         </form>
     )
 }
-const DialogReduxForm=reduxForm({
+const DialogReduxForm=reduxForm<newPostInDialogsValuesType,propsType>({
     // a unique name for the form
     form: 'DialogForm'
 })(DialogForm);

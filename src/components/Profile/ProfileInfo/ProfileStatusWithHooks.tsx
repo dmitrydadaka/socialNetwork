@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 
 
 type propsType={
     status:string,
-    updateStatus:(status:any)=>void,
+    updateStatus:(status:string)=>void,
     error:any
 }
 
@@ -38,7 +38,7 @@ const ProfileStatusWithHooks:React.FC<propsType> = ({status, updateStatus, error
 
 
 
-    const onStatusChange = (e:any) => {
+    const onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)
     }
 

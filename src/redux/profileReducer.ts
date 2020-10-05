@@ -21,7 +21,6 @@ let initialState = {
     profile: null as profileType | null,
     status: "",
     error: null as any | null,
-    newPostText: ""
 };
 type errorType = {
     error: any

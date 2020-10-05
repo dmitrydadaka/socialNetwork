@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import React, { Component, ReactElement, Suspense } from 'react';
 import "./App.css";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
@@ -13,26 +13,39 @@ import { connect, Provider } from 'react-redux';
 import { initializeApp } from "./redux/appReducer";
 import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
-import store from "./redux/reduxStoreNew";
+import store, { appStateType } from "./redux/reduxStoreNew";
 import { withSuspense } from './hoc/withAuthRedirect';
+import { RouteComponentProps } from '@reach/router';
+
 
 
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+type mapPropsType=ReturnType<typeof mapStateToProps>
+type dispatchPropsType={
+    initializeApp:()=>void
+}
 
 
-class App extends Component {
-   /*  catchAllUnhandledErrors = (promise,reason) => {
+const LoginDrawning=withSuspense(Login)
+
+type ownPropsType={
+    pageTitle:JSX.Element
+
+}
+class App extends Component<mapPropsType&dispatchPropsType&ownPropsType> {
+    catchAllUnhandledErrors = (e:PromiseRejectionEvent) => {
         alert("Some error occured");
-    } */
+    }
+    
     componentDidMount() {
 
         this.props.initializeApp();
-       // window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+       window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
     }
-   /*  componentWillUnmount() {
+    componentWillUnmount() {
         window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
-    } */
+    }
     
 
     render() {
@@ -58,7 +71,7 @@ class App extends Component {
 
                             <Route path={"/profile/:userId?"} render={() => <ProfileContainer />} />
                             <Route path={"/dialogs"} render={() => <DialogsContainer />} />
-                            <Route path={"/users"} render={() => <UsersContainer pageTitle={"samurai"} />} />
+                            <Route path={"/users"} render={() => <UsersContainer /* pageTitle={"samurai"as unknown as JSX.Element} */  />} />
 
                     </Suspense>
                     <Switch>
@@ -68,10 +81,10 @@ class App extends Component {
 
                             <Route path={"/music"} render={() => <Music />} />
                             <Route path={"/settings"} render={() => <Settings />} />
-                            <Route path={"/users"} render={() => <UsersContainer />} />
+                            {/* <Route path={"/users"} render={() => <UsersContainer />} /> */}
 {/*                             <Route path={"/login/facebook"} render={() => <div>facebook</div>} />
  */}
-                            <Route path={"/login"} render={withSuspense(Login)} />
+                            <Route path={"/login"} render={()=><LoginDrawning/>} />
                             <Route path={"*"} render={() => <div>404 not found</div>} />
 
                             <Route path={"/friends"} render={() => <Friends />} />
@@ -81,15 +94,15 @@ class App extends Component {
         )
     }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:appStateType) => ({
                     initialized: state.app.initialized
 })
 
-let AppContainer = compose(
+let AppContainer = compose<React.ComponentType>(
     withRouter,
     connect(mapStateToProps, { initializeApp}))(App);
 
-const AppReactSamuraiJS = (props) => {
+const AppReactSamuraiJS:React.FC = () => {
     return (
                 <BrowserRouter >
                     <Provider store={store}>

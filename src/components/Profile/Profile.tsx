@@ -4,11 +4,11 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import { profileType } from "../types/types";
 
 type propsType={
-    saveProfile:(formData:any) => Promise<any>,
-    savePhoto:()=>void,
+    saveProfile:(formData:profileType) => Promise<any>,
+    savePhoto:(file:File)=>void,
     error:any,
     isOwner:boolean,
-    profile:profileType,
+    profile:profileType|null,
     status:string,
     updateStatus:(status:any)=>void
 }

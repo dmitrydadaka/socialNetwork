@@ -25,22 +25,22 @@ const ProfileDataForm: React.FC<InjectedFormProps<profileType, propsType> & prop
                     {error} </div>}
 
                 {/*<textarea value={aboutMe} cols="30" rows="10"/>*/}
-                <div> <b>About me</b>:{createField(Textarea, [],
+                <div> <b>About me</b>:{createField<profileTypeKeys>(Textarea, [],
                     "aboutMe", "about me")} </div>
 
                 {/*<>{props.profile.contacts}</>*/}
 
 
                 <div>
-                    <b>Fullname</b>:{createField (Input, [], "fullName", "Full name")}
+                    <b>Fullname</b>:{createField<profileTypeKeys> (Input, [], "fullName", "Full name")}
                 </div>
                 <div>
-                    <b>Looking for a job</b>: {createField(Input, [], "lookingForaJob", "", { type: "checkbox" })}
+                    <b>Looking for a job</b>: {createField <profileTypeKeys>(Input, [], "lookingForAJob", "", { type: "checkbox" })}
                 </div>
 
                 <div>
                     <b>My professional skills</b>:
-                        {createField(Textarea, [],
+                        {createField<profileTypeKeys>(Textarea, [],
                         "lookingForAJobDescription", "My professional skills")}
                 </div>
 

@@ -27,7 +27,7 @@ const mapStateToProps = (state:appStateType) => {
         dialogsPage:state.dialogsPage,
     }
 }
-const mapDispatchToProps = (dispatch:any) => {
+/* const mapDispatchToProps = (dispatch:any) => {
     return {
         sendMessage: (newPostTextInDialogs:any) => {
             dispatch(actions.onButtonClickEventMessageActionCreator(newPostTextInDialogs));
@@ -36,7 +36,7 @@ const mapDispatchToProps = (dispatch:any) => {
         //     dispatch(updateNewPostTextMessageActionCreator(body))
         // }
     }
-}
+} */
 
 
 
@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch:any) => {
 
 // const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, {...actions})
 )(Dialogs);
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect,FC } from "react";
+import React, { useState, useEffect,FC, ChangeEvent } from "react";
 import s from "./ProfileInfo.module.css";
 import Preloader from "../../common/Preloader/Preloader";
 import ProfileDataForm from "./ProfileDataForm"
@@ -8,13 +8,13 @@ import Alert2 from "../../common/Alert/alert2"
 import { profileType, contactsType } from "../../types/types";
 import { type } from "os";
 type propsType={
-    saveProfile:(formData:any) => Promise<any>,
-    savePhoto:(e:any)=>void,
+    saveProfile:(formData:profileType) => Promise<any>,
+    savePhoto:(file:File)=>void,
     error:any,
     isOwner:boolean,
     profile:profileType|null,
     status:string,
-    updateStatus:(status:any)=>void
+    updateStatus:(status:string)=>void
 }
 const ProfileInfo:React.FC<propsType> = ({ profile, status, updateStatus, isOwner, savePhoto,  error, saveProfile }) => {
     const [editMode, setEditMode] = useState(false);
@@ -31,8 +31,8 @@ const ProfileInfo:React.FC<propsType> = ({ profile, status, updateStatus, isOwne
     if(!profile){ return <Preloader/>}
   
 
-    const onMainPhotoSelected = (e:any) => {
-        if (e.target.files.length) {
+    const onMainPhotoSelected = (e:ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.length) {
             savePhoto(e.target.files[0])
 
         }
@@ -83,7 +83,7 @@ const ProfileInfo:React.FC<propsType> = ({ profile, status, updateStatus, isOwne
  type ProfileDataType={
     profile:profileType,
     isOwner:boolean,
-    toEditMode:any
+    toEditMode:()=>void
 
 } 
 

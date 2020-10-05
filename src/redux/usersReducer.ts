@@ -1,7 +1,6 @@
 import { UsersAPI } from "../API/userApi";
 import { updateObjectInArray } from "../utils/objectHelpers";
 import {  userType } from "../components/types/types";
-import {  actionTypes } from "redux-form";
 import { appStateType, baseThunkType, InferActionsTypes } from "./reduxStoreNew";
 import { Dispatch } from "react";
 import { ThunkAction } from "redux-thunk";
@@ -26,7 +25,7 @@ const initialState = {
     followingInProgress: [] as Array<number>//id users
     //fake: 10
 };
-const usersReducer = (state = initialState, action: actionTypes): initialStateType => {
+const usersReducer = (state = initialState, action: ActionTypes): initialStateType => {
     switch (action.type) {
 /*         case "fake": return{...state, fake:state.fake+1}
  */        case "SN/USERS/Follow":
@@ -42,7 +41,7 @@ const usersReducer = (state = initialState, action: actionTypes): initialStateTy
                     return u
                 }) */
             };
-        case "SN/USERS/unFollow":
+        case "SN/USERS/unFollow" :
             return {
                 ...state,
                 // users:[...state.users] odno i toge
@@ -55,7 +54,7 @@ const usersReducer = (state = initialState, action: actionTypes): initialStateTy
                 }) */
             };
         case "SN/USERS/setUsers": {
-            return { ...state, users: [...action.users] }//skleivaem 2 spread operator
+            return { ...state, users: action.users  }//skleivaem 2 spread operator
         }
             ;
         case "SN/USERS/setCurrentPage": {
@@ -121,11 +120,11 @@ export const actions = {
         type: "SN/USERS/toggleIsFollowingProgress",
         isFetching,
         userId
-    })
+    }as const)
 }
 
 
-export const getUsers = (currentPage = 1, pageSize: number): ThunkAction<void, appStateType, unknown, actionTypes> => {
+export const getUsers = (currentPage = 1, pageSize: number): thunkType => {
     return (dispatch, getState) => {
         getState()
         dispatch(actions.setCurrentPage(currentPage))
@@ -138,7 +137,7 @@ export const getUsers = (currentPage = 1, pageSize: number): ThunkAction<void, a
 
     }
 }
-const _followUnfollow = async (dispatch: dispatchType, userId: number, apiFunction: any, actionCreator: (userId: number) => actionTypes) => {
+const _followUnfollow = async (dispatch: dispatchType, userId: number, apiFunction: any, actionCreator: (userId: number) => ActionTypes) => {
 
     dispatch(actions.toggleIsFollowingProgress(true, userId));
 
@@ -153,7 +152,7 @@ const _followUnfollow = async (dispatch: dispatchType, userId: number, apiFuncti
 
 
 
-export const Follow = (userId: number): ThunkAction<Promise<void>, appStateType, unknown, actionTypes> => {
+export const Follow = (userId: number): ThunkAction<Promise<void>, appStateType, unknown, ActionTypes> => {
     return async (dispatch) => {
         /* let apiFunction = UsersAPI.followFriends.bind(UsersAPI);
         let actionCreator = followSuccess; */
@@ -177,7 +176,7 @@ export const unFollow = (userId: number): thunkType => {
 export default usersReducer;
 export type initialStateType = typeof initialState
 
-type dispatchType = Dispatch<actionTypes>
+type dispatchType = Dispatch<ActionTypes>
 type getStateType = () => appStateType
-type thunkType = baseThunkType<actionTypes>
-type actionTypes = InferActionsTypes<typeof actions>
+type thunkType = baseThunkType<ActionTypes>
+type ActionTypes = InferActionsTypes<typeof actions>

@@ -19,7 +19,7 @@ let initialState={
     ]as Array <avatarsType>
 }
 
- type avatarsType={
+ export type avatarsType={
     id:number,
     name:string,
     avatar: string

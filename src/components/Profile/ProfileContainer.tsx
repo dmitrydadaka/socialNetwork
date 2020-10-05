@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "./Profile";
 import { getStatus, getUserProfile, updateStatus, savePhoto, saveProfile } from "../../redux/profileReducer";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter,RouteComponentProps } from "react-router-dom";
 import { compose } from "redux";
 import { appStateType } from "../../redux/reduxStoreNew";
 import { profileType } from "../types/types";
@@ -12,44 +12,52 @@ import { profileType } from "../types/types";
 type mapDispatchToPropsType={
     
     getUserProfile:(userId:number)=>void,
-    getStatus:(status:string)=>{},
+    getStatus:(userId:number)=>{},
     updateStatus:(status:string)=>{},
-    savePhoto:()=>void,
-    saveProfile:(formData:any) => Promise<any>
+    savePhoto:(file:File)=>void,
+    saveProfile:(profile:profileType) => Promise<any>
 
 }
-type ownPropsType={
-    match:any,
-    history:any,
-    authUserId:any,
+ type pathParamType={
+    userId:string
+    /* authUserId:any,
     profile:profileType,
     status:string,
-    error:any
+    error:any */
 
 
-}
-type propsType=mapDispatchToPropsType&ownPropsType
+} 
+type withRouterType=RouteComponentProps<pathParamType>
+type mapStateToPropsType=ReturnType<typeof mapStateToProps>
+type propsType=mapDispatchToPropsType&mapStateToPropsType&withRouterType
 class ProfileContainer extends React.Component <propsType> {
+    constructor(props: propsType) {
+        super(props);
+    }
+
     refreshMethod() {
-        let userId = this.props.match.params.userId;
+        let userId:number|null = +this.props.match.params.userId;
 
         if (!userId) {
             userId = this.props.authUserId
         } if (!userId) { this.props.history.push("/login") }
         //axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+userId)
         //
+        if(!userId){
+            console.log("ID should exists in URI params or in state ('authorizedUserId')")
+        }
+        else{
         this.props.getUserProfile(userId);
-        // setTimeout(()=>{
-        this.props.getStatus(userId);
-        // }, 1000)
-    }
+        
+        this.props.getStatus(userId)}
+           }
     componentDidMount() {
 
         this.refreshMethod();
 
 
     }
-    componentDidUpdate(prevProps:any, prevState:any, snapshot:any) {
+    componentDidUpdate(prevProps:propsType, prevState:propsType) {
         //na luboi chih update, poetomu stavim uslovie
         if (this.props.match.params.userId != prevProps.match.params.userId)
          { this.refreshMethod() }
@@ -99,7 +107,7 @@ let mapStateToProps = (state:appStateType) => {
 };
 // let withUrlDataContainerComponent=withRouter(AuthRedirectComponent);
 
-export default compose(connect(mapStateToProps, {
+export default compose<React.ComponentType>(connect(mapStateToProps, {
     getUserProfile,
     getStatus,
     updateStatus,

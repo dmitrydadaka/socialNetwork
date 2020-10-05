@@ -21,12 +21,9 @@ type mapDispatchToPropsType={
     getUsers:(currentPage:number, pageSize:number)=>void
 
 }
-type ownPropsType={
-    pageTitle:string
 
-}
-type propsType=mapDispatchToPropsType&mapStateToPropsType&ownPropsType
-class UsersContainer extends React.Component <propsType> {
+//type propsType=mapDispatchToPropsType&mapStateToPropsType
+class UsersContainer extends React.Component <mapDispatchToPropsType&mapStateToPropsType> {
     // constructor(props) {po ymolchaniuy pishetsya reactcomponent, kotoryi my nasledyem rashiryaem
     //     super(props);konstruktor po ymolchaniyu cosdaetsya
     // }
@@ -70,7 +67,7 @@ class UsersContainer extends React.Component <propsType> {
 /* console.log("Users")
  */        return (<>
                {/*  {this.props.isFetching ? <Preloader/> : null} */}
-               <h2>{this.props.pageTitle}</h2>
+              {/*  <h2>{this.props.pageTitle}</h2> */}
                 <Users totalUsersCount={this.props.totalUsersCount}
                        pageSize={this.props.pageSize}
                        currentPage={this.props.currentPage}
@@ -98,28 +95,20 @@ const mapStateToProps = (state:appStateType):mapStateToPropsType => {
         followingInProgress:getFollowingInProgress(state)
     }
 }
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         Follow: (userId) => {
-//             dispatch(followAC(userId));
-//         },
-//         unFollow: (userId) => {
-//             dispatch(unFollowAC(userId))
-//         },
-//         setUsers: (users) => {
-//             dispatch(setUsersAC(users))
-//         },
-//         setCurrentPage: (pageNumber) => {
-//             dispatch(setCurrentPageAC(pageNumber))
-//         },
-//         setTotalUsersCount: (totalUsersCount) => {
-//             dispatch(setTotalUsersCountAC(totalUsersCount))
-//         },
-//         toggleIsFetching: (isFetching) => {
-//             dispatch(toggleIsFetchingAC(isFetching))
-//         }
-//     }
-// }
+/* const mapDispatchToProps = (dispatch:any) => {
+    return {
+         Follow: (userId:number) => {
+             dispatch(Follow(userId));
+         },
+         unFollow: (userId:number) => {
+             dispatch(unFollow(userId))
+         },
+         getUsers: (currentPage:number, pageSize:number) => {
+             dispatch(getUsers(currentPage, pageSize))
+         }
+      
+    }
+ } */
 
 
 // export default connect(mapStateToProps,
@@ -138,7 +127,7 @@ const mapStateToProps = (state:appStateType):mapStateToPropsType => {
 //         unFollow,
 //         getUsers
 //     })(UsersContainer));
-export default compose(connect<mapStateToPropsType,mapDispatchToPropsType,ownPropsType,appStateType>(mapStateToProps,
+export default compose<React.ComponentType>(connect<mapStateToPropsType,mapDispatchToPropsType,{},appStateType>(mapStateToProps,
     {
         Follow,
         unFollow,

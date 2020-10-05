@@ -5,34 +5,34 @@ import {NavLink} from "react-router-dom";
 import { userType } from "../types/types";
 type propsType={
 user:userType,
-unFollow:(id:any)=>void,
+unFollow:(userId:number)=>void,
 followingInProgress:Array<number>
-Follow:(id:any)=>void,
+Follow:(userId:number)=>void,
 
 }
 
 let User:React.FC<propsType> = ({user,unFollow, followingInProgress, Follow}) => {
-   const u=user
+   
 
     return (
          <div>
                 <span>
                     <div>
-                        <NavLink to={"profile/" + u.id}>
-                        <img className={s.photo} src={u.photos.small != null ? u.photos.small : userPhoto}/>
+                        <NavLink to={"profile/" + user.id}>
+                        <img className={s.photo} src={user.photos.small != null ? user.photos.small : userPhoto}/>
                         </NavLink>
                     </div>
                     <div>
-                        {u.followed ?
-                            <button disabled={followingInProgress.some((id:any) => id === u.id)} onClick={() => {
-                                unFollow(u.id)
+                        {user.followed ?
+                            <button disabled={followingInProgress.some((id:number) => id === user.id)} onClick={() => {
+                                unFollow(user.id)
                                 
                                 
 
 
                             }}>unFollow</button> :
-                            <button disabled={followingInProgress.some((id:any) => id === u.id)} onClick={() => {
-                            Follow(u.id)}}
+                            <button disabled={followingInProgress.some((id:number) => id === user.id)} onClick={() => {
+                            Follow(user.id)}}
                               
 
                             >Follow</button>}
@@ -40,8 +40,8 @@ let User:React.FC<propsType> = ({user,unFollow, followingInProgress, Follow}) =>
                     </span>
                 <span>
                     <span>
-                        <div>{u.name}  </div>
-                        <div> {u.status}  </div>
+                        <div>{user.name}  </div>
+                        <div> {user.status}  </div>
                     </span>
                     <span>
                         <div>  {"u.location.country"}</div>

@@ -3,9 +3,18 @@ import s from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import DialogReduxForm from "./DialogForm/DialogForm";
+import { initialStateType } from "../../redux/dialogsReducer";
+import { GetStringKeys } from "../common/formControls/formControls";
 
-
-const Dialogs = (props:any) => {
+type Propstype={
+dialogsPage:initialStateType
+sendMessage:(messageText:string)=>void
+}
+export type newPostInDialogsValuesType={
+    newPostTextInDialogs:string
+    
+}
+const Dialogs:React.FC<Propstype> = (props) => {
 
     let state = props.dialogsPage;
 

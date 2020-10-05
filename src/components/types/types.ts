@@ -4,18 +4,18 @@ export type postsType = {
     likescount: number
 }
 export type contactsType={
-    github: string|null,
-    vk:string|null,
-    facebook:string|null,
-    instagram: string|null,
-    twitter: string|null,
-    website: string|null,
-    youtube: string|null,
-    mainLink: string|null
+    github: string,
+    vk:string,
+    facebook:string,
+    instagram: string,
+    twitter: string,
+    website: string,
+    youtube: string,
+    mainLink: string
 }
 export type photosType = {
-    small:string|null,
-    large:string|null
+    small:string,
+    large:string
 }
 export type profileType = {
     userId: number,
@@ -28,9 +28,9 @@ export type profileType = {
 
 }
 export type userType={
-    id:number|null,
-    name:string|null,
-    status:string|null,
+    id:number,
+    name:string,
+    status:string,
     photos:photosType,
     followed:boolean
 }
