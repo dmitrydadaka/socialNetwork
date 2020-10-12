@@ -3,6 +3,7 @@ import s from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
 import Friends from "../Friends/Friends";
 import {appStateType} from "../../redux/reduxStoreNew"
+import { avatarsType } from "../../redux/friendsReducer";
 
 
 console.log(s)
@@ -19,8 +20,14 @@ console.log(s)
 // let classes = c1 + " " + c2;
 // let classesNew=`${c1} ${c2}`;
 //     `${s.item} ${s.active}`
+type propsType={
+    avatar:string
+    name:string
+    k:number
+    friendsPage:{avatars:avatarsType[]}
+}
 
-const NavBar:React.FC<appStateType> = ({friendsPage}) =>{
+const NavBar:React.FC<propsType> = ({friendsPage}) =>{
 
     let state=friendsPage;
 
@@ -33,6 +40,8 @@ const NavBar:React.FC<appStateType> = ({friendsPage}) =>{
             <div className={s.item}><NavLink to={"Music"} activeClassName={s.activeLink}> Music </NavLink></div>
             <div className={s.item}><NavLink to={"settings"} activeClassName={s.activeLink}> Settings </NavLink></div>
             <div className={s.item}><NavLink to={"users"} activeClassName={s.activeLink}> Users </NavLink></div>
+            <div className={s.item}><NavLink to={"sideBar"} activeClassName={s.activeLink}> SideBar </NavLink></div>
+
             <div className={s.item}><NavLink to={"friends"} activeClassName={s.activeLink}> <h3>Friends</h3> </NavLink>
                 <div>
                     {avatarsNew}
@@ -40,6 +49,7 @@ const NavBar:React.FC<appStateType> = ({friendsPage}) =>{
                 </div>
 
             </div>
+
 
         </nav>
     )

@@ -4,7 +4,7 @@ import Paginator from "./Paginator";
 
 describe("Paginator component tests", () => {
     test("pages count is 11 but should be showed only 10", () => {
-        //@ts-ignore
+        
         const component = create(<Paginator totalItemsCount={11} pageSize={1} portionSize={10} currentPage={1}  />);
         const root = component.root;
         let spans = root.findAllByType("span");
@@ -12,7 +12,7 @@ describe("Paginator component tests", () => {
     });
 
     test("if pages count is more then 10 button NEXT should be present", () => {
-        //@ts-ignore
+
         const component = create(<Paginator totalItemsCount={11} pageSize={1} portionSize={10}currentPage={1} />);
         const root = component.root;
         let button = root.findAllByType("button");

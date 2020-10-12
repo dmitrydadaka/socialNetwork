@@ -1,5 +1,5 @@
-import { AxiosPromise } from "axios";
-import { photosType } from "../components/types/types";
+
+
 import { instance,getItemsType, responseType } from "./api";
 /* export type getUserAPIType={
     items:{
@@ -13,8 +13,8 @@ import { instance,getItemsType, responseType } from "./api";
     error:string|null
 } */
 export const UsersAPI = {
-    getUsers(currentPage: number, pageSize: number) {
-        return instance.get<getItemsType>(`users?page=${currentPage}&count=${pageSize}`).then(res=>res.data)
+    getUsers(currentPage: number, pageSize: number, term:string, friend:boolean) {
+        return instance.get<getItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}&friend=${friend}`).then(res=>res.data)
 
     },
     unfollowFriends(userId: number) {
@@ -22,6 +22,10 @@ export const UsersAPI = {
     },
     followFriends(userId: number) {
         return instance.post<responseType>(`follow/${userId}`, {}).then(res=>res.data)
+
+    },
+    searchingFriends(term: string) {
+        return instance.get(`users/${term}`).then(res=>res.data)
 
     }
 

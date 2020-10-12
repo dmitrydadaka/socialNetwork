@@ -29,7 +29,7 @@ export type getItemsType={
     items:Array<userType>
     error:string|null
     totalCount:number
-
+    
 }
 
 

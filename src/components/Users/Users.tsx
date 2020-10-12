@@ -12,7 +12,9 @@ onPageChanged:(pageNumber:number)=>void,
 users:Array<userType>,
 Follow:(userId:number)=>void,
 unFollow:(userId:number)=>void,
-followingInProgress:Array<number>
+followingInProgress:Array<number>,
+term:string,
+friend:boolean
 }
 
 let Users:React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, onPageChanged, users, ...props}) => {

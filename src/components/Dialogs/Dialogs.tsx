@@ -8,7 +8,7 @@ import { GetStringKeys } from "../common/formControls/formControls";
 
 type Propstype={
 dialogsPage:initialStateType
-sendMessage:(messageText:string)=>void
+onButtonClickEventMessageActionCreator:(messageText:string)=>void
 }
 export type newPostInDialogsValuesType={
     newPostTextInDialogs:string
@@ -25,7 +25,7 @@ const Dialogs:React.FC<Propstype> = (props) => {
 
 
     let addNewMessage = (values:any) => {
-        props.sendMessage(values.newPostTextInDialogs);
+        props.onButtonClickEventMessageActionCreator(values.newPostTextInDialogs);
         values.newPostTextInDialogs="";
     }
     //let onPostChange = (elementObjectTarget) => {

@@ -25,9 +25,7 @@ let User:React.FC<propsType> = ({user,unFollow, followingInProgress, Follow}) =>
                     <div>
                         {user.followed ?
                             <button disabled={followingInProgress.some((id:number) => id === user.id)} onClick={() => {
-                                unFollow(user.id)
-                                
-                                
+                                unFollow(user.id)                                                        
 
 
                             }}>unFollow</button> :

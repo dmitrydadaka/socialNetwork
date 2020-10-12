@@ -16,6 +16,8 @@ import Preloader from './components/common/Preloader/Preloader';
 import store, { appStateType } from "./redux/reduxStoreNew";
 import { withSuspense } from './hoc/withAuthRedirect';
 import { RouteComponentProps } from '@reach/router';
+import SideBar from './components/sideBar/sideBar';
+import SideBarContainer from './components/sideBar/SideBarContainer';
 
 
 
@@ -27,7 +29,7 @@ type dispatchPropsType={
 }
 
 
-const LoginDrawning=withSuspense(Login)
+const LoginDrawing=withSuspense(Login)
 
 type ownPropsType={
     pageTitle:JSX.Element
@@ -72,7 +74,9 @@ class App extends Component<mapPropsType&dispatchPropsType&ownPropsType> {
                             <Route path={"/profile/:userId?"} render={() => <ProfileContainer />} />
                             <Route path={"/dialogs"} render={() => <DialogsContainer />} />
                             <Route path={"/users"} render={() => <UsersContainer /* pageTitle={"samurai"as unknown as JSX.Element} */  />} />
-
+                            <Route path={"/sideBar"} render={() =>
+                            
+                            <SideBarContainer />} />
                     </Suspense>
                     <Switch>
                              <Route exact path={"/"} render={() => <Redirect to="/profile"/>}/>
@@ -84,10 +88,13 @@ class App extends Component<mapPropsType&dispatchPropsType&ownPropsType> {
                             {/* <Route path={"/users"} render={() => <UsersContainer />} /> */}
 {/*                             <Route path={"/login/facebook"} render={() => <div>facebook</div>} />
  */}
-                            <Route path={"/login"} render={()=><LoginDrawning/>} />
+                            <Route path={"/login"} render={()=><LoginDrawing/>} />
                             <Route path={"*"} render={() => <div>404 not found</div>} />
 
-                            <Route path={"/friends"} render={() => <Friends />} />
+                            <Route path={"/friends"} render={() => <Friends  />} />
+                            
+                            
+
                         </Switch>
                 </div>
                 </div>

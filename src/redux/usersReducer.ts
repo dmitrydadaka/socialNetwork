@@ -16,13 +16,16 @@ import { getItemsType } from "../API/api";
 
 
 
-const initialState = {
+export const initialState = {
     users: [] as Array<userType>,
     pageSize: 10 as number,
     totalUsersCount: 0 as number,
     currentPage: 1 as number,
-    isFetching: true as boolean,
-    followingInProgress: [] as Array<number>//id users
+    isFetching: false as boolean,
+    followingInProgress: [] as Array<number>,
+    term:" " as string,
+    friend:false as boolean
+    //id users
     //fake: 10
 };
 const usersReducer = (state = initialState, action: ActionTypes): initialStateType => {
@@ -66,7 +69,7 @@ const usersReducer = (state = initialState, action: ActionTypes): initialStateTy
             return { ...state, totalUsersCount: action.count }
 
         }
-            ;
+            
         case "SN/USERS/toggleIsFetching": {
             return {
                 ...state, isFetching: action.isFetching
@@ -80,6 +83,17 @@ const usersReducer = (state = initialState, action: ActionTypes): initialStateTy
                     : state.followingInProgress.filter(id => id != action.userId)
             }
         }
+        case "SN/USERS/toGetTerm": {
+            return {
+                ...state, term: action.term
+            }
+        }
+        case "SN/USERS/toGetFriend": {
+            return {
+                ...state, friend: action.friend
+            }
+        }
+
         default:
             return state;
     }
@@ -120,19 +134,29 @@ export const actions = {
         type: "SN/USERS/toggleIsFollowingProgress",
         isFetching,
         userId
-    }as const)
+    }as const),
+    toGetTerm: (term: string) => ({ type: "SN/USERS/toGetTerm", term } as const),
+    toGetFriend: (friend: boolean) => ({ type: "SN/USERS/toGetFriend", friend } as const)
+
+
 }
 
 
-export const getUsers = (currentPage = 1, pageSize: number): thunkType => {
+export const getUsers = (currentPage = 1, pageSize: number, term:string, friend:boolean): thunkType => {
     return (dispatch, getState) => {
         getState()
         dispatch(actions.setCurrentPage(currentPage))
-        dispatch(actions.toggleIsFetching(true));
-        UsersAPI.getUsers(currentPage, pageSize).then((data: getItemsType) => {
-            dispatch(actions.toggleIsFetching(false));
-            dispatch(actions.setUsers(data.items));
-            dispatch(actions.setTotalUsersCount(data.totalCount));
+        dispatch(actions.toggleIsFetching(true))
+        UsersAPI.getUsers(currentPage, pageSize, term, friend).then((data: getItemsType) => {
+            dispatch(actions.toggleIsFetching(false))
+            dispatch(actions.setUsers(data.items))
+            dispatch(actions.setTotalUsersCount(data.totalCount))
+            dispatch(actions.toGetFriend(true))
+            dispatch(actions.toGetTerm(term))
+
+
+
+
         })
 
     }
@@ -156,16 +180,16 @@ export const Follow = (userId: number): ThunkAction<Promise<void>, appStateType,
     return async (dispatch) => {
         /* let apiFunction = UsersAPI.followFriends.bind(UsersAPI);
         let actionCreator = followSuccess; */
-        _followUnfollow(dispatch, userId, UsersAPI.followFriends.bind(UsersAPI), actions.followSuccess)
+        await _followUnfollow(dispatch, userId, UsersAPI.followFriends.bind(UsersAPI), actions.followSuccess)
 
 
     }
 }
 export const unFollow = (userId: number): thunkType => {
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         /* let apiFunction = UsersAPI.unfollowFriends.bind(UsersAPI);
         let actionCreator = unfollowSuccess; */
-        _followUnfollow(dispatch, userId, UsersAPI.unfollowFriends.bind(UsersAPI), actions.unfollowSuccess)
+       await _followUnfollow(dispatch, userId, UsersAPI.unfollowFriends.bind(UsersAPI), actions.unfollowSuccess)
 
 
     }

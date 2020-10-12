@@ -1,8 +1,14 @@
 import React from "react";
 import s from "./Header.module.css";
 import { Redirect} from "react-router-dom";
-
-const Header = (props) => {
+export type mstpType={
+    isAuth:boolean
+    login:string|null
+}
+export type dPtype={
+    logout:()=>void
+}
+const Header:React.FC<mstpType&dPtype> = (props) => {
     return (
         
 

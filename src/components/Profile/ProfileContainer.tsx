@@ -31,11 +31,15 @@ type withRouterType=RouteComponentProps<pathParamType>
 type mapStateToPropsType=ReturnType<typeof mapStateToProps>
 type propsType=mapDispatchToPropsType&mapStateToPropsType&withRouterType
 class ProfileContainer extends React.Component <propsType> {
+    
     constructor(props: propsType) {
+        
         super(props);
     }
 
     refreshMethod() {
+
+       
         let userId:number|null = +this.props.match.params.userId;
 
         if (!userId) {
@@ -58,6 +62,7 @@ class ProfileContainer extends React.Component <propsType> {
 
     }
     componentDidUpdate(prevProps:propsType, prevState:propsType) {
+        
         //na luboi chih update, poetomu stavim uslovie
         if (this.props.match.params.userId != prevProps.match.params.userId)
          { this.refreshMethod() }
